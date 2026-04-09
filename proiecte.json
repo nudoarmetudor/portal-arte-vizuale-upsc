@@ -8,24 +8,18 @@
         "titlu": "Exemplu-de-titlu",
         "url": "LINK-PUBLIC-GITHUB",
         "imagine": "LINK-IMAGINE",
-        "tags": [
-            "Prezentare",
-            "Media"
-        ]
+        "tags": ["Prezentare", "Media"]
     },
     {
         "id": 2,
-        "student": "Popescu Maria",
+        "student": "Gligor Andriana",
         "anStudiu": "Anul 2",
-        "specialitate": "Design Grafic",
-        "categorie": "UI/UX",
-        "titlu": "Redesign Muzeu de Artă",
-        "url": "https://maria-p.github.io/muzeu-design",
-        "imagine": "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800",
-        "tags": [
-            "Minimalist",
-            "Accessibility"
-        ]
+        "specialitate": "Arte Plastice",
+        "categorie": "Flori",
+        "titlu": "Gradina de vis",
+        "url": "https://gligor02092005-rgb.github.io/andriananus.eu27/",
+        "imagine": "LINK-IMAGINE",
+        "tags": ["Green", "Media"]
     },
     {
         "id": 3,
