@@ -8,7 +8,10 @@
         "titlu": "Exemplu-de-titlu",
         "url": "https://ebotnari26-hash.github.io/eugenianui-sclav./",
         "imagine": "LINK-IMAGINE",
-        "tags": ["Prezentare", "Media"]
+        "tags": [
+            "Prezentare",
+            "Media"
+        ]
     },
     {
         "id": 2,
@@ -18,35 +21,40 @@
         "categorie": "Flori",
         "titlu": "Gradina de vis",
         "url": "https://gligor02092005-rgb.github.io/andriananus.eu27/",
-        "imagine": "LINK-IMAGINE",
-        "tags": ["Green", "Media"]
+        "imagine": "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&q=80&w=2070",
+        "tags": [
+            "Green",
+            "Media"
+        ]
     },
     {
         "id": 3,
-        "student": "Ionescu Andrei",
-        "anStudiu": "Anul 3",
-        "specialitate": "Media Digitală",
-        "categorie": "Web Interactive",
-        "titlu": "Explorări Generative",
-        "url": "https://andrei-i.github.io/generative-art",
-        "imagine": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
+        "student": "Pîrlițanu Olga",
+        "anStudiu": "Anul 2",
+        "specialitate": "Arte Plastice",
+        "categorie": "UI/UX",
+        "titlu": "Delicate flowers",
+        "url": "https://pirlitanu1987-debug.github.io/Delicate/",
+        "imagine": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=2000&auto=format&fit=crop",
         "tags": [
-            "p5.js",
-            "Experimental"
+            "Eleganță în fiecare petală",
+            "Rafinament floral pentru momente care sclipesc."
         ]
     },
     {
         "id": 4,
-        "student": "Dumitru Elena",
-        "anStudiu": "Anul 1",
-        "specialitate": "Design de Produs",
-        "categorie": "Portofoliu",
-        "titlu": "Digital Archive v1",
-        "url": "https://elena-d.github.io/portfolio",
-        "imagine": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+        "student": "Prijilevschi Carolina",
+        "anStudiu": "Anul 2",
+        "specialitate": "Arte Plastice",
+        "categorie": "Anime",
+        "titlu": "FourPaws",
+        "url": "https://probablycarolina.github.io/FourPaws/",
+        "imagine": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=2071&auto=format&fit=crop",
         "tags": [
-            "Clean",
-            "Grid System"
+            "Prezentare",
+            "Media"
         ]
-    }
+    },
+    
+    
 ]
