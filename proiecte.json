@@ -8,10 +8,7 @@
         "titlu": "Exemplu-de-titlu",
         "url": "https://ebotnari26-hash.github.io/eugenianui-sclav./",
         "imagine": "LINK-IMAGINE",
-        "tags": [
-            "Prezentare",
-            "Media"
-        ]
+        "tags": [ "Prezentare", "Media" ]
     },
     {
         "id": 2,
@@ -22,10 +19,7 @@
         "titlu": "Gradina de vis",
         "url": "https://gligor02092005-rgb.github.io/andriananus.eu27/",
         "imagine": "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&q=80&w=2070",
-        "tags": [
-            "Green",
-            "Media"
-        ]
+        "tags": [ "Green", "Media" ]
     },
     {
         "id": 3,
@@ -36,10 +30,7 @@
         "titlu": "Delicate flowers",
         "url": "https://pirlitanu1987-debug.github.io/Delicate/",
         "imagine": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=2000&auto=format&fit=crop",
-        "tags": [
-            "Eleganță în fiecare petală",
-            "Rafinament floral pentru momente care sclipesc."
-        ]
+        "tags": [ "Eleganță în fiecare petală", "Rafinament floral pentru momente care sclipesc." ]
     },
     {
         "id": 4,
@@ -50,10 +41,7 @@
         "titlu": "FourPaws",
         "url": "https://probablycarolina.github.io/FourPaws/",
         "imagine": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=2071&auto=format&fit=crop",
-        "tags": [
-            "Prezentare",
-            "Media"
-        ]
+        "tags": [ "Prezentare", "Media" ]
     },
     {
         "id": 5,
@@ -64,9 +52,6 @@
         "titlu": "Muzeul Luvru-Galeria Digitală",
         "url": "https://anastasiadanilov05-lgtm.github.io/ART/",
         "imagine": "https://images.unsplash.com/photo-1491156855053-9cdff72c7f85?auto=format&fit=crop&q=80&w=2000",
-        "tags": [
-            "description",
-            "keywords"
-        ]
+        "tags": [ "description", "keywords" ]
     }
 ]
