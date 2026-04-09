@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "student": "Eugenia Botnari",
+        "anStudiu": "Anul 2",
+        "specialitate": "Arte Plastice",
+        "categorie": "Anime",
+        "titlu": "Exemplu-de-titlu",
+        "url": "LINK-PUBLIC-GITHUB",
+        "imagine": "LINK-IMAGINE",
+        "tags": [
+            "Prezentare",
+            "Media"
+        ]
+    },
+    {
+        "id": 2,
+        "student": "Popescu Maria",
+        "anStudiu": "Anul 2",
+        "specialitate": "Design Grafic",
+        "categorie": "UI/UX",
+        "titlu": "Redesign Muzeu de Artă",
+        "url": "https://maria-p.github.io/muzeu-design",
+        "imagine": "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800",
+        "tags": [
+            "Minimalist",
+            "Accessibility"
+        ]
+    },
+    {
+        "id": 3,
+        "student": "Ionescu Andrei",
+        "anStudiu": "Anul 3",
+        "specialitate": "Media Digitală",
+        "categorie": "Web Interactive",
+        "titlu": "Explorări Generative",
+        "url": "https://andrei-i.github.io/generative-art",
+        "imagine": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
+        "tags": [
+            "p5.js",
+            "Experimental"
+        ]
+    },
+    {
+        "id": 4,
+        "student": "Dumitru Elena",
+        "anStudiu": "Anul 1",
+        "specialitate": "Design de Produs",
+        "categorie": "Portofoliu",
+        "titlu": "Digital Archive v1",
+        "url": "https://elena-d.github.io/portfolio",
+        "imagine": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+        "tags": [
+            "Clean",
+            "Grid System"
+        ]
+    }
+]
