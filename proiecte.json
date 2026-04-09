@@ -55,6 +55,18 @@
             "Media"
         ]
     },
-    
-    
+    {
+        "id": 5,
+        "student": "Danilov Anastasia",
+        "anStudiu": "Anul 2",
+        "specialitate": "Arte Plastice",
+        "categorie": "UI/UX",
+        "titlu": "Muzeul Luvru-Galeria Digitală",
+        "url": "https://anastasiadanilov05-lgtm.github.io/ART/",
+        "imagine": "https://images.unsplash.com/photo-1491156855053-9cdff72c7f85?auto=format&fit=crop&q=80&w=2000",
+        "tags": [
+            "description",
+            "keywords"
+        ]
+    }
 ]
