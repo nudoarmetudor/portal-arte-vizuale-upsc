@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Showcase Web Design - Facultatea de Arte</title>
-    <!-- Tailwind CSS pentru styling -->
+    <!-- Tailwind CSS pentru stilizare rapidă -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React și ReactDOM -->
+    <!-- React și ReactDOM via CDN -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel pentru a compila JSX în browser -->
+    <!-- Babel pentru compilarea JSX direct în browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        .grid-loader { border-top-color: #4f46e5; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -24,61 +24,16 @@
     <script type="text/babel">
         const { useState, useMemo, useEffect } = React;
 
-        // Componente pentru Iconițe (folosind SVG-uri inline deoarece Lucide-React necesită setup complex în HTML simplu)
+        // Componente iconițe SVG inline
         const SearchIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
         const FilterIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
         const ExternalLinkIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>;
         const CapIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-600"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>;
 
-        const INITIAL_PROJECTS = [
-            {
-                id: 1,
-                student: "Eugenia Botnari",
-                anStudiu: "Anul 2",
-                specialitate: "Arte Plastice",
-                categorie: "Anime",
-                titlu: "Exemplu-de-titlu",
-                url: "LINK-PUBLIC-GITHUB",
-                imagine: "LINK-IMAGINE",
-                tags: ["Prezentare", "Media"]
-
-            },
-            {
-                id: 2,
-                student: "Ionescu Andrei",
-                anStudiu: "Anul 3",
-                specialitate: "Media Digitală",
-                categorie: "Web Interactive",
-                titlu: "Explorări Generative",
-                url: "https://andrei-i.github.io/generative-art",
-                imagine: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800",
-                tags: ["p5.js", "Experimental"]
-            },
-            {
-                id: 3,
-                student: "Dumitru Elena",
-                anStudiu: "Anul 1",
-                specialitate: "Design de Produs",
-                categorie: "Portofoliu",
-                titlu: "Digital Archive v1",
-                url: "https://elena-d.github.io/portfolio",
-                imagine: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
-                tags: ["Clean", "Grid System"]
-            },
-            {
-                id: 4,
-                student: "Stan Radu",
-                anStudiu: "Anul 2",
-                specialitate: "Design Grafic",
-                categorie: "E-commerce",
-                titlu: "Concept Store Muzică",
-                url: "https://radu-s.github.io/music-store",
-                imagine: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
-                tags: ["Typography", "Dark Mode"]
-            }
-        ];
-
         function App() {
+            const [projects, setProjects] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
             const [searchTerm, setSearchTerm] = useState("");
             const [activeFilter, setActiveFilter] = useState({
                 anStudiu: "Toți anii",
@@ -86,48 +41,85 @@
                 categorie: "Toate categoriile"
             });
 
-            const filters = useMemo(() => {
-                return {
-                    ani: ["Toți anii", ...new Set(INITIAL_PROJECTS.map(p => p.anStudiu))],
-                    specialitati: ["Toate specialitățile", ...new Set(INITIAL_PROJECTS.map(p => p.specialitate))],
-                    categorii: ["Toate categoriile", ...new Set(INITIAL_PROJECTS.map(p => p.categorie))]
+            // Încărcare din proiecte.json
+            useEffect(() => {
+                const loadData = async () => {
+                    try {
+                        const response = await fetch('proiecte.json');
+                        if (!response.ok) throw new Error("Fișierul proiecte.json nu a putut fi găsit.");
+                        const data = await response.json();
+                        setProjects(data);
+                    } catch (err) {
+                        setError(err.message);
+                    } finally {
+                        setLoading(false);
+                    }
                 };
+                loadData();
             }, []);
 
-            const filteredProjects = INITIAL_PROJECTS.filter(project => {
-                const matchesSearch = 
-                    project.student.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    project.titlu.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    project.tags.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()));
-                
-                const matchesAn = activeFilter.anStudiu === "Toți anii" || project.anStudiu === activeFilter.anStudiu;
-                const matchesSpec = activeFilter.specialitate === "Toate specialitățile" || project.specialitate === activeFilter.specialitate;
-                const matchesCat = activeFilter.categorie === "Toate categoriile" || project.categorie === activeFilter.categorie;
+            // Extragerea automată a opțiunilor de filtrare din JSON
+            const filters = useMemo(() => {
+                return {
+                    ani: ["Toți anii", ...new Set(projects.map(p => p.anStudiu))].filter(Boolean),
+                    specialitati: ["Toate specialitățile", ...new Set(projects.map(p => p.specialitate))].filter(Boolean),
+                    categorii: ["Toate categoriile", ...new Set(projects.map(p => p.categorie))].filter(Boolean)
+                };
+            }, [projects]);
 
-                return matchesSearch && matchesAn && matchesSpec && matchesCat;
-            });
+            // Logică de filtrare
+            const filteredProjects = useMemo(() => {
+                return projects.filter(project => {
+                    const matchesSearch = 
+                        project.student?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        project.titlu?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        project.tags?.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()));
+                    
+                    const matchesAn = activeFilter.anStudiu === "Toți anii" || project.anStudiu === activeFilter.anStudiu;
+                    const matchesSpec = activeFilter.specialitate === "Toate specialitățile" || project.specialitate === activeFilter.specialitate;
+                    const matchesCat = activeFilter.categorie === "Toate categoriile" || project.categorie === activeFilter.categorie;
+
+                    return matchesSearch && matchesAn && matchesSpec && matchesCat;
+                });
+            }, [projects, searchTerm, activeFilter]);
+
+            if (loading) return (
+                <div className="min-h-screen flex items-center justify-center bg-white">
+                    <div className="grid-loader rounded-full h-12 w-12 border-4 border-gray-100"></div>
+                </div>
+            );
+
+            if (error) return (
+                <div className="min-h-screen flex items-center justify-center bg-white px-4">
+                    <div className="text-center p-8 bg-red-50 rounded-2xl max-w-md border border-red-100">
+                        <div className="text-red-500 mb-4 font-bold text-xl">Eroare de configurare</div>
+                        <p className="text-red-600 mb-6">{error}</p>
+                        <p className="text-sm text-gray-500 italic">Asigură-te că fișierul "proiecte.json" este în același folder cu fișierul HTML.</p>
+                    </div>
+                </div>
+            );
 
             return (
                 <div className="min-h-screen flex flex-col">
-                    <header className="bg-white border-b sticky top-0 z-10 shadow-sm">
+                    <header className="bg-white border-b sticky top-0 z-20 shadow-sm">
                         <div className="max-w-7xl mx-auto px-4 py-6">
-                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
                                         <CapIcon />
-                                        Showcase Web Design
+                                        Platformă Centralizare Proiecte
                                     </h1>
-                                    <p className="text-gray-500 text-sm mt-1">Facultatea de Arte Vizuale și Design</p>
+                                    <p className="text-gray-500 text-sm mt-1">Facultatea de Arte Vizuale și Design • UPSC</p>
                                 </div>
                                 
-                                <div className="relative">
-                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <div className="relative group w-full lg:w-96">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600 transition-colors">
                                         <SearchIcon />
                                     </div>
                                     <input 
                                         type="text"
-                                        placeholder="Caută student sau proiect..."
-                                        className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                        placeholder="Caută student, titlu sau tag..."
+                                        className="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all shadow-sm"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
@@ -135,77 +127,132 @@
                             </div>
 
                             <div className="mt-6 flex flex-wrap gap-3 items-center">
-                                <div className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-wider">
-                                    <FilterIcon /> Filtre:
+                                <div className="flex items-center gap-2 text-gray-400 text-[10px] font-bold uppercase tracking-[0.1em]">
+                                    <FilterIcon /> Filtrează după:
                                 </div>
+                                
                                 <select 
-                                    className="bg-gray-100 text-sm px-3 py-2 rounded-md border-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                                    className="bg-gray-100 text-xs font-semibold px-4 py-2 rounded-lg border-r-8 border-transparent focus:ring-2 focus:ring-indigo-500 outline-none hover:bg-gray-200 transition-colors cursor-pointer"
                                     value={activeFilter.anStudiu}
                                     onChange={(e) => setActiveFilter({...activeFilter, anStudiu: e.target.value})}
                                 >
                                     {filters.ani.map(an => <option key={an} value={an}>{an}</option>)}
                                 </select>
+
                                 <select 
-                                    className="bg-gray-100 text-sm px-3 py-2 rounded-md border-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                                    className="bg-gray-100 text-xs font-semibold px-4 py-2 rounded-lg border-r-8 border-transparent focus:ring-2 focus:ring-indigo-500 outline-none hover:bg-gray-200 transition-colors cursor-pointer"
                                     value={activeFilter.specialitate}
                                     onChange={(e) => setActiveFilter({...activeFilter, specialitate: e.target.value})}
                                 >
                                     {filters.specialitati.map(sp => <option key={sp} value={sp}>{sp}</option>)}
                                 </select>
+
                                 <select 
-                                    className="bg-gray-100 text-sm px-3 py-2 rounded-md border-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                                    className="bg-gray-100 text-xs font-semibold px-4 py-2 rounded-lg border-r-8 border-transparent focus:ring-2 focus:ring-indigo-500 outline-none hover:bg-gray-200 transition-colors cursor-pointer"
                                     value={activeFilter.categorie}
                                     onChange={(e) => setActiveFilter({...activeFilter, categorie: e.target.value})}
                                 >
                                     {filters.categorii.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                                 </select>
+
+                                {(searchTerm || activeFilter.anStudiu !== "Toți anii" || activeFilter.specialitate !== "Toate specialitățile" || activeFilter.categorie !== "Toate categoriile") && (
+                                    <button 
+                                        onClick={() => {
+                                            setSearchTerm("");
+                                            setActiveFilter({anStudiu: "Toți anii", specialitate: "Toate specialitățile", categorie: "Toate categoriile"});
+                                        }}
+                                        className="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 uppercase"
+                                    >
+                                        Resetează tot
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </header>
 
-                    <main className="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-                        <div className="mb-6">
-                            <h2 className="text-lg font-medium text-gray-600">
-                                {filteredProjects.length} proiecte găsite
+                    <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-xl font-bold text-gray-800">
+                                Lucrări Recente <span className="text-gray-400 font-normal ml-2">({filteredProjects.length})</span>
                             </h2>
                         </div>
 
                         {filteredProjects.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                                 {filteredProjects.map((project) => (
-                                    <div key={project.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-                                        <div className="relative aspect-video group">
+                                    <div key={project.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                                        {/* Container Imagine */}
+                                        <div className="relative aspect-[4/3] overflow-hidden bg-gray-200">
                                             <img 
                                                 src={project.imagine} 
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                 alt={project.titlu}
+                                                onError={(e) => { e.target.src = "https://via.placeholder.com/800x600?text=Imagine+Indisponibila"; }}
                                             />
-                                            <div className="absolute inset-0 bg-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <a href={project.url} target="_blank" className="bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
-                                                    Vezi Proiect <ExternalLinkIcon />
+                                            <div className="absolute inset-0 bg-indigo-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6">
+                                                <a 
+                                                    href={project.url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer"
+                                                    className="bg-white text-gray-900 px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                                                >
+                                                    Deschide Link <ExternalLinkIcon />
                                                 </a>
                                             </div>
+                                            <div className="absolute top-4 left-4">
+                                                <span className="bg-white/90 backdrop-blur-sm text-gray-900 text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm">
+                                                    {project.categorie}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="p-4 flex flex-col flex-grow">
-                                            <span className="text-[10px] font-bold text-indigo-600 uppercase mb-1">{project.categorie}</span>
-                                            <h3 className="font-bold text-gray-900 mb-2 leading-tight">{project.titlu}</h3>
-                                            <div className="text-xs text-gray-500 mt-auto">
-                                                <p className="font-semibold text-gray-700">{project.student}</p>
-                                                <p>{project.anStudiu} • {project.specialitate}</p>
+
+                                        {/* Detalii Proiect */}
+                                        <div className="p-5 flex flex-col flex-grow">
+                                            <h3 className="font-bold text-gray-900 mb-2 leading-snug text-lg line-clamp-2">
+                                                {project.titlu}
+                                            </h3>
+                                            
+                                            <div className="space-y-1.5 mb-4">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-[10px] font-bold">
+                                                        {project.student?.charAt(0)}
+                                                    </div>
+                                                    <span className="text-sm font-semibold text-gray-700">{project.student}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs text-gray-400 font-medium">
+                                                    <span>{project.anStudiu}</span>
+                                                    <span>•</span>
+                                                    <span>{project.specialitate}</span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-wrap gap-2 mt-auto">
+                                                {project.tags?.map(tag => (
+                                                    <span key={tag} className="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md font-medium border border-indigo-100">
+                                                        #{tag}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-20">
-                                <p className="text-gray-400">Nu am găsit niciun proiect care să corespundă filtrelor tale.</p>
+                            <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
+                                <div className="text-gray-300 mb-4 flex justify-center"><SearchIcon /></div>
+                                <h3 className="text-lg font-bold text-gray-900">Nu au fost găsite rezultate</h3>
+                                <p className="text-gray-500 mt-2">Încearcă să schimbi termenii de căutare sau filtrele selectate.</p>
                             </div>
                         )}
                     </main>
 
-                    <footer className="bg-white border-t py-8 text-center text-gray-400 text-xs">
-                        &copy; {new Date().getFullYear()} Facultatea de Arte Vizuale și Design - UPSC
+                    <footer className="bg-white border-t py-12 text-center">
+                        <div className="max-w-7xl mx-auto px-4">
+                            <p className="text-gray-400 text-xs font-medium tracking-wide">
+                                &copy; {new Date().getFullYear()} FACULTATEA DE ARTE VIZUALE ȘI DESIGN - UPSC
+                            </p>
+                            <p className="text-gray-300 text-[10px] mt-2">Platformă dedicată centralizării portofoliilor studenților</p>
+                        </div>
                     </footer>
                 </div>
             );
